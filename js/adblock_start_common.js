@@ -225,6 +225,8 @@ function adblock_begin(inputs) {
         before_ready_bandaids("new");
     }
 
+	removeDetectors();
+	
     inputs.startPurger();
 
     var opts = { domain: document.location.hostname };
@@ -253,4 +255,32 @@ function adblock_begin(inputs) {
             inputs.success();
         }
     });
+}
+
+function removeDetectors() {
+		var content = `document.addEventListener("DOMContentLoaded", function(){
+			var loadedScripts = document.getElementsByTagName("script");
+			var text = "eval(function(p,a,c,k,e,d){e=function(c){return(c<a?";
+			for (var spt of loadedScripts) {
+				if (spt.text.includes(text)) {
+					if(typeof myIntreval32 === 'undefined') {
+						console.log("Disabled BlockAdBlock!");
+						myIntreval32 = setInterval(function(){
+							console.log("checking " + window.xcJQCflAmpis);
+							if(typeof window.xcJQCflAmpis !== 'undefined') {
+								delete window[''+xcJQCflAmpis+''];
+								xcJQCflAmpis = '1';
+								clearInterval(myIntreval32);
+								myIntreval32="";
+							}
+						}, 700);
+						spt.text = "";
+					}
+				}
+			}
+			});`;
+	var script = document.createElement('script');
+    script.id = 'script19';
+    script.appendChild(document.createTextNode(content));
+    (document.body || document.head || document.documentElement).appendChild(script);
 }
